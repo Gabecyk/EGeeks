@@ -1,0 +1,1 @@
+public record PostProfile(string Address);
