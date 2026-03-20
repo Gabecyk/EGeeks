@@ -20,8 +20,8 @@ public class UpdateOrderUseCase
         await _eventBus.PublishAsync("OrderUpdated", new
         {
             OrderId = order.Id,
-            CustomerId = order.CustomerId,
-            TotalAmount = order.TotalAmount
+            order.CustomerId,
+            order.TotalAmount
         });
     }
 }

@@ -29,7 +29,7 @@ public class CreateOrderUseCase
         {
             OrderId = order.Id,
             CustomerId = customerId,
-            TotalAmount = order.TotalAmount
+            order.TotalAmount
         });
 
         return order.Id;
