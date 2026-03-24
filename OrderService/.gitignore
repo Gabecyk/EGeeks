@@ -1,0 +1,16 @@
+# Pastas de dependências
+node_modules/
+bin/
+obj/
+
+# Variáveis de ambiente e segredos
+.env
+.secrets
+.appsettings.json
+
+# Logs
+*.log
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
