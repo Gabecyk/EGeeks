@@ -4,6 +4,12 @@ namespace OrderService.Application.DTOs;
 
 public class CreateOrderRequest
 {
-    public Guid CustomerId { get; set; }
-    public List<OrderItem> Items { get; set; } = new List<OrderItem>();
+    public List<CreateOrderItemRequest> Items { get; set; } = new();
+}
+
+public class CreateOrderItemRequest
+{
+    public Guid ProductId { get; set; }
+    public int Quantity { get; set; }
+    public decimal UnitPrice { get; set; }
 }

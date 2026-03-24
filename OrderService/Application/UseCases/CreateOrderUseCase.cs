@@ -1,4 +1,5 @@
 using OrderService.Application.DTOs;
+using OrderService.Application.Events;
 using OrderService.Application.Ports;
 using OrderService.Domain.Entities;
 
@@ -15,7 +16,7 @@ public class CreateOrderUseCase
         _eventBus = eventBus;
     }
 
-    public async Task<Guid> Execute(CreateOrderRequest request, Guid customerId)
+    public async Task<Guid> Execute(CreateOrderRequest request, Guid customerId, CancellationToken cancellationToken = default)
     {
         var items = request.Items.Select(i => 
             new  OrderItem(i.ProductId, i.Quantity, i.UnitPrice)
@@ -25,12 +26,18 @@ public class CreateOrderUseCase
 
         await _orderRepository.AddAsync(order);
         
-        await _eventBus.PublishAsync("OrderCreated", new
-        {
-            OrderId = order.Id,
-            CustomerId = customerId,
-            order.TotalAmount
-        });
+        var orderCreatedEvent = new OrderCreatedEvent(
+            order.Id,
+            customerId,
+            order.TotalAmount,
+            items.Select(i => new OrderCreatedItem(
+                i.ProductId,
+                i.Quantity,
+                i.UnitPrice
+            )).ToList()
+        );
+
+        await _eventBus.PublishAsync(orderCreatedEvent, cancellationToken);
 
         return order.Id;
     }

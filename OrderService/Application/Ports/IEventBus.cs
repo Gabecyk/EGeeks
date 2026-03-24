@@ -1,6 +1,8 @@
+using OrderService.Application.Events;
+
 namespace OrderService.Application.Ports;
 
 public interface IEventBus
 {
-    Task PublishAsync(string eventName, object payload);
+    Task PublishAsync(OrderCreatedEvent orderCreatedEvent, CancellationToken cancellationToken = default);
 }

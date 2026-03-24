@@ -7,6 +7,7 @@ using OrderService.Application.UseCases;
 namespace OrderService.API.Controllers;
 
 [ApiController]
+[Authorize(Roles = "Customer")]
 [Route("api/[controller]")]
 public class OrderController : ControllerBase
 {
@@ -14,11 +15,12 @@ public class OrderController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateOrder(
         CreateOrderRequest request,
-        [FromServices] CreateOrderUseCase useCase)
+        [FromServices] CreateOrderUseCase useCase,
+        CancellationToken cancellationToken)
     {
         var customerId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-        var orderId = await useCase.Execute(request, customerId);
+        var orderId = await useCase.Execute(request, customerId, cancellationToken);
 
         return Ok(new { orderId });
     }
