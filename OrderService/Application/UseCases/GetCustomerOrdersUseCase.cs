@@ -13,5 +13,8 @@ public class GetCustomerOrdersUseCase
     }
 
     public async Task<List<Order>> Execute(Guid customerId)
-        => await _orderRepository.GetByCustomerIdAsync(customerId);
+    {
+        List<Order> orders = await _orderRepository.GetByCustomerIdAsync(customerId);
+        return orders;
+    }
 }

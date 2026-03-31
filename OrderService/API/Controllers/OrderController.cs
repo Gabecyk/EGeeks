@@ -36,4 +36,15 @@ public class OrderController : ControllerBase
 
         return Ok(orders);
     }
+
+    [Authorize(Roles = "Customer")]
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(
+        Guid id,
+        [FromServices] GetOrderByIdUseCase useCase
+    )
+    {
+        var order = await useCase.Execute(id);
+        return Ok(order);
+    }
 }

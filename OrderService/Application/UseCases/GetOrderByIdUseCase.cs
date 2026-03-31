@@ -13,5 +13,7 @@ public class GetOrderByIdUseCase
     }    
 
     public async Task<Order?> Execute(Guid id)
-        => await _orderRepository.GetByIdAsync(id);
+    {
+        return await _orderRepository.GetByIdAsync(id);
+    }
 }
