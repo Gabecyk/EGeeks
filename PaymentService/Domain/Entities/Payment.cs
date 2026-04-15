@@ -1,8 +1,8 @@
 namespace PaymentService.Domain.Entities;
 
-public class Payment
+public sealed class Payment
 {
-    public Guid id { get; private set; } = Guid.NewGuid();
+    public Guid Id { get; private set; } = Guid.NewGuid();
     public Guid OrderId { get; private set; }
     public Guid CustomerId { get; private set; }
     public decimal Amount { get; private set; }
