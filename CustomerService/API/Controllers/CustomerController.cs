@@ -43,4 +43,20 @@ public class CustomerController : ControllerBase
 
         return Ok(customer);
     }
+
+    [HttpGet("email/{customerId:guid}")]
+    public async Task<IActionResult> GetEmailByCustomerId(Guid customerId)
+    {
+        var customer = await _context.Customers.FirstOrDefaultAsync(c => c.UserId == customerId);
+
+        if (customer == null)
+            return NotFound(new { Message = "Customer not found." });
+
+        return Ok(new
+        {
+            Id = customer.UserId,
+            Name = customer.Name,
+            Email = customer.Email
+        });
+    }
 }
