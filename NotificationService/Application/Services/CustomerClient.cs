@@ -1,16 +1,6 @@
+using NotificationService.Application.Ports;
+using NotificationService.Domain.Models;
 namespace NotificationService.Application.Services;
-
-public interface ICustomerClient
-{
-    Task<CustomerData?> GetCustomerEmailAsync(Guid customerId, CancellationToken cancellationToken = default);
-}
-
-public class CustomerData
-{
-    public Guid Id { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public string Email { get; set; } = string.Empty;
-}
 
 public class CustomerClient : ICustomerClient
 {

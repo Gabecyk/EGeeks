@@ -1,6 +1,5 @@
 using NotificationService.Application.Events;
 using NotificationService.Application.Ports;
-using NotificationService.Application.Services;
 using NotificationService.Domain.Models;
 
 namespace NotificationService.Application.UseCases;
@@ -33,8 +32,14 @@ public class HandlePaymentCreatedNotificationUseCase
 
             // Buscar dados do cliente
             var customer = await _customerClient.GetCustomerEmailAsync(paymentEvent.CustomerId, cancellationToken);
-            var customerEmail = customer?.Email ?? $"cliente-{paymentEvent.CustomerId}@fake.com";
-            var customerName = customer?.Name ?? "Estimado Cliente";
+
+            if (customer == null || string.IsNullOrEmpty(customer.Email))
+            {
+                _logger.LogWarning($"Customer data not found for ID {paymentEvent.CustomerId}. Using fallback email.");
+                throw new Exception($"Customer data not found for ID {paymentEvent.CustomerId}");
+            }
+            var customerEmail = customer.Email;
+            var customerName = customer.Name;
 
             var confirmUrl = $"{paymentBaseUrl}/api/payment/{paymentEvent.PaymentId}/confirm";
             var cancelUrl = $"{paymentBaseUrl}/api/payment/{paymentEvent.PaymentId}/cancel";
@@ -224,7 +229,7 @@ public class HandlePaymentCreatedNotificationUseCase
         
         <div class=""footer"">
             <p>E-Geeks | Serviço de Pagamento</p>
-            <p>© 2024 Todos os direitos reservados</p>
+            <p>© 2026 Todos os direitos reservados</p>
         </div>
     </div>
 </body>
