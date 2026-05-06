@@ -66,7 +66,7 @@ public class HandlePaymentCreatedNotificationUseCase
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Error sending notification email: {ex.Message}");
+            _logger.LogError($"Error sending notification payment email: {ex.Message}");
             throw;
         }
     }
