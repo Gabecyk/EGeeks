@@ -23,6 +23,7 @@ public class HandlePaymentConfirmedNotificationUseCase
     {
         try
         {
+            //After finish the payment confirmation, we can send a notification email to the customer with the details of the order and the payment confirmation.
             var paymentBaseUrl = _configuration["Payment:BaseUrl"]
                 ?? "https://localhost:5080";
 
