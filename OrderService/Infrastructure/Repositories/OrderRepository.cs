@@ -20,6 +20,12 @@ public class OrderRepository : IOrderRepository
         await _dbContext.SaveChangesAsync();
     }
 
+    public async Task UpdateAsync(Order order)
+    {
+        _dbContext.Orders.Update(order);
+        await _dbContext.SaveChangesAsync();
+    }
+
     public async Task<Order?> GetByIdAsync(Guid id)
         => await _dbContext.Orders
             .Include(o => o.Items)

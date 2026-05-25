@@ -22,10 +22,14 @@ builder.Services.AddDbContext<OrderDbContext>(options =>
 
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IEventBus, AzureServiceBusEventBus>();
+builder.Services.AddScoped<IOrderConfirmed, OrderConfirmedUseCase>();
+builder.Services.AddScoped<IOrderCancelled, OrderCancelledUseCase>();
+builder.Services.AddScoped<IProcessServiceBusMessageUseCase, ProcessServiceBusMessageUseCase>();
 
 builder.Services.AddScoped<CreateOrderUseCase>();
 builder.Services.AddScoped<GetCustomerOrdersUseCase>();
 builder.Services.AddScoped<GetOrderByIdUseCase>();
+builder.Services.AddHostedService<OrderConsumer>();
 
 // Configure JWT Authentication
 var jwtKey = builder.Configuration["Jwt:Key"];
