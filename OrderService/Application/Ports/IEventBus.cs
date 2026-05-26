@@ -5,4 +5,5 @@ namespace OrderService.Application.Ports;
 public interface IEventBus
 {
     Task PublishAsync(OrderCreatedEvent orderCreatedEvent, CancellationToken cancellationToken = default);
+    Task PublishOrderConfirmedAsync(List<SendProductsConfirmed> items, CancellationToken cancellationToken = default);
 }

@@ -42,6 +42,21 @@ public class AzureServiceBusEventBus : IEventBus, IAsyncDisposable
         await _sender.SendMessageAsync(message, cancellationToken);
     }
 
+    public async Task PublishOrderConfirmedAsync(List<SendProductsConfirmed> items, CancellationToken cancellationToken = default)
+    {
+        var body = JsonSerializer.Serialize(items);
+        var message = new ServiceBusMessage(body)
+        {
+            Subject = "OrderConfirmed",
+            MessageId = Guid.NewGuid().ToString(),
+            ContentType = "application/json"
+        };
+
+        message.ApplicationProperties["eventType"] = "OrderConfirmed";
+
+        await _sender.SendMessageAsync(message, cancellationToken);
+    }
+
     public async ValueTask DisposeAsync()
     {
         await _sender.DisposeAsync();

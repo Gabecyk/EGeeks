@@ -37,4 +37,9 @@ public class OrderRepository : IOrderRepository
             .Where(o => o.CustomerId == customerId)
             .ToListAsync();
 
+    public async Task<List<OrderItem>> GetOrderItemsByOrderIdAsync(Guid orderId)
+        => await _dbContext.OrderItems
+            .Where(oi => oi.OrderId == orderId)
+            .ToListAsync();
+
 }
