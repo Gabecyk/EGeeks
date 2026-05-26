@@ -19,6 +19,7 @@ public class OrderConfirmedUseCase : IOrderConfirmed
         if (order is not null)
         {
             order.MarkAsPaid();
+            order.UpdateAt = DateTime.UtcNow;
             await _orderRepository.UpdateAsync(order);
         }
     }

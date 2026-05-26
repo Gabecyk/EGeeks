@@ -8,6 +8,7 @@ public class Order
     public decimal TotalAmount { get; private set;}
     public string Status { get; private set;}
     public DateTime CreatedAt { get; private set;}
+    public DateTime UpdateAt { get; set;}
 
     // Construtor sem parâmetros para EF Core
     public Order() { }
@@ -19,6 +20,7 @@ public class Order
         Items = items;
         TotalAmount = items.Sum(i => i.TotalPrice);
         CreatedAt = DateTime.UtcNow;
+        UpdateAt = DateTime.UtcNow;
         Status = "CREATED";
     }
     

@@ -19,6 +19,7 @@ public class OrderCancelledUseCase : IOrderCancelled
         if (order is not null)
         {
             order.MarkAsCancelled();
+            order.UpdateAt = DateTime.UtcNow;
             await _orderRepository.UpdateAsync(order);
         }
     }

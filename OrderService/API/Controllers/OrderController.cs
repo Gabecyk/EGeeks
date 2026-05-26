@@ -18,7 +18,9 @@ public class OrderController : ControllerBase
         [FromServices] CreateOrderUseCase useCase,
         CancellationToken cancellationToken)
     {
-        var customerId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var customerId = User.FindFirstValue(ClaimTypes.NameIdentifier) is string id 
+            ? Guid.Parse(id) 
+            : throw new InvalidOperationException("Customer ID not found in token.");
 
         var orderId = await useCase.Execute(request, customerId, cancellationToken);
 
@@ -30,7 +32,9 @@ public class OrderController : ControllerBase
     public async Task<IActionResult> MyOrders(
         [FromServices] GetCustomerOrdersUseCase useCase)
     {
-        var customerId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var customerId = User.FindFirstValue(ClaimTypes.NameIdentifier) is string id 
+            ? Guid.Parse(id) 
+            : throw new InvalidOperationException("Customer ID not found in token.");
 
         var orders = await useCase.Execute(customerId);
 
