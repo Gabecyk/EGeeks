@@ -11,7 +11,7 @@ public class Order
     public DateTime UpdateAt { get; set;}
 
     // Construtor sem parâmetros para EF Core
-    public Order() { }
+    private Order() { }
 
     public Order(Guid customerId, List<OrderItem> items)
     {
