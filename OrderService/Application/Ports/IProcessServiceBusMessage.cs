@@ -2,7 +2,7 @@ using OrderService.Application.DTOs;
 
 namespace OrderService.Application.Ports;
 
-public interface IProcessServiceBusMessageUseCase
+public interface IProcessServiceBusMessage
 {
     Task ExecuteAsync(ServiceBusOrderEventCommand command, CancellationToken cancellationToken = default);
 }

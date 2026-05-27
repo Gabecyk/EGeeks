@@ -3,7 +3,7 @@ using OrderService.Application.Ports;
 
 namespace OrderService.Application.UseCases;
 
-public class ProcessServiceBusMessageUseCase : IProcessServiceBusMessageUseCase
+public class ProcessServiceBusMessageUseCase : IProcessServiceBusMessage
 {
     private readonly IOrderConfirmed _orderConfirmed;
     private readonly IOrderCancelled _orderCancelled;

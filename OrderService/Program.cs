@@ -24,7 +24,7 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IEventBus, AzureServiceBusEventBus>();
 builder.Services.AddScoped<IOrderConfirmed, OrderConfirmedUseCase>();
 builder.Services.AddScoped<IOrderCancelled, OrderCancelledUseCase>();
-builder.Services.AddScoped<IProcessServiceBusMessageUseCase, ProcessServiceBusMessageUseCase>();
+builder.Services.AddScoped<IProcessServiceBusMessage, ProcessServiceBusMessageUseCase>();
 
 builder.Services.AddScoped<CreateOrderUseCase>();
 builder.Services.AddScoped<GetCustomerOrdersUseCase>();

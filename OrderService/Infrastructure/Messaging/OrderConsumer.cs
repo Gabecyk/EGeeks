@@ -60,7 +60,7 @@ public class OrderConsumer : BackgroundService
             var command = new ServiceBusOrderEventCommand(eventType, orderStatus);
 
             await using var scope = _scopeFactory.CreateAsyncScope();
-            var useCase = scope.ServiceProvider.GetRequiredService<IProcessServiceBusMessageUseCase>();
+            var useCase = scope.ServiceProvider.GetRequiredService<IProcessServiceBusMessage>();
             await useCase.ExecuteAsync(command);
 
             await args.CompleteMessageAsync(args.Message);
