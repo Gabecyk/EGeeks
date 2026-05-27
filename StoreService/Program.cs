@@ -6,6 +6,7 @@ using StoreService.Infrastructure.Data;
 using StoreService.Application.Ports;
 using StoreService.Infrastructure.Repositories;
 using StoreService.Application.UseCases;
+using StoreService.Infrastructure.Messaging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,8 @@ builder.Services.AddScoped<CreateStoreUseCase>();
 builder.Services.AddScoped<CreateProductUseCase>();
 builder.Services.AddScoped<GetAllProductsUseCase>();
 builder.Services.AddScoped<DeleteProductUseCase>();
+builder.Services.AddScoped<IStockConfirmed, StockConfirmedUseCase>();
+builder.Services.AddHostedService<StoreConsumer>();
 
 builder.Services.AddAuthorization();
 
