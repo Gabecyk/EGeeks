@@ -7,6 +7,8 @@ public class Store
     public string Name { get; private set; } = string.Empty;
     public string Description { get; private set; } = string.Empty;
     public string ProfileImageUrl { get; private set; } = string.Empty;
+    public DateTime CreatedAt { get; private set;}
+    public DateTime UpdateAt { get; private set;}
 
     private Store() { }
 
@@ -19,11 +21,14 @@ public class Store
         Name = name;
         Description = description;
         ProfileImageUrl = profileImageUrl;
+        CreatedAt = DateTime.UtcNow;
+        UpdateAt = DateTime.UtcNow;
     }
 
     public void UpdateProfile(string description, string profileImageUrl)
     {
         Description = description;
         ProfileImageUrl = profileImageUrl;
+        UpdateAt = DateTime.UtcNow;
     }
 }

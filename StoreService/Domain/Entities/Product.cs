@@ -9,6 +9,8 @@ public class Product
     public decimal Price { get; private set; }
     public int StockQuantity { get; private set; }
     public string ImageUrl { get; private set; } = string.Empty;
+    public DateTime CreatedAt { get; private set;}
+    public DateTime UpdateAt { get; private set;}
 
     private Product() { }
 
@@ -26,11 +28,14 @@ public class Product
         Price = price;
         StockQuantity = stockQuantity;
         ImageUrl = imageUrl;
+        CreatedAt = DateTime.UtcNow;
+        UpdateAt = DateTime.UtcNow;
     }
 
     public void UpdateStock(int quantity)
     {
         StockQuantity = quantity;
+        UpdateAt = DateTime.UtcNow;
     }
 
     public void ReduceStock(int quantity)
@@ -39,5 +44,6 @@ public class Product
             throw new InvalidOperationException("Not enough stock available.");
 
         StockQuantity -= quantity;
+        UpdateAt = DateTime.UtcNow;
     }
 }
