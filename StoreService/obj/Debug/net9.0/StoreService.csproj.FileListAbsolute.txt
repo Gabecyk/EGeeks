@@ -129,3 +129,4 @@ C:\Users\gabri\OneDrive\Documentos\Estudos\E-Geeks\StoreService\obj\Debug\net9.0
 C:\Users\gabri\OneDrive\Documentos\Estudos\E-Geeks\StoreService\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\gabri\OneDrive\Documentos\Estudos\E-Geeks\StoreService\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\gabri\OneDrive\Documentos\Estudos\E-Geeks\StoreService\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\gabri\OneDrive\Documentos\Estudos\E-Geeks\StoreService\obj\Debug\net9.0\StoreService.sourcelink.json
