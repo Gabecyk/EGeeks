@@ -8,6 +8,7 @@ public sealed class Payment
     public decimal Amount { get; private set; }
     public string FakeBoletoCode { get; private set; }
     public string Status { get; private set; }
+    public DateTime UpdatedAt { get; private set; } = DateTime.UtcNow;
 
     private Payment() { }
 
@@ -21,6 +22,7 @@ public sealed class Payment
         Amount = amount;
         FakeBoletoCode = fakeBoletoCode;
         Status = "Pending";
+        UpdatedAt = DateTime.UtcNow;
     }
 
     public void Confirm()
@@ -29,6 +31,7 @@ public sealed class Payment
             throw new InvalidOperationException("Payment can't be confirmed");
 
         Status = "Confirmed";
+        UpdatedAt = DateTime.UtcNow;
     }
 
     public void Cancel()
@@ -37,5 +40,6 @@ public sealed class Payment
             throw new InvalidOperationException("Payment can't be cancelled");
 
         Status = "Cancelled";
+        UpdatedAt = DateTime.UtcNow;
     }
 }
