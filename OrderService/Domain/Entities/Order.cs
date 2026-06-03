@@ -8,7 +8,7 @@ public class Order
     public decimal TotalAmount { get; private set;}
     public string Status { get; private set;}
     public DateTime CreatedAt { get; private set;}
-    public DateTime UpdateAt { get; set;}
+    public DateTime UpdateAt { get; private set;}
 
     // Construtor sem parâmetros para EF Core
     private Order() { }
@@ -24,6 +24,22 @@ public class Order
         Status = "CREATED";
     }
     
-    public void MarkAsPaid() => Status = "PAID";
-    public void MarkAsCancelled() => Status = "CANCELLED";
+    public void MarkAsPaid()
+    {
+        if (Status == "CANCELLED" || Status == "PAID")
+        {
+            throw new InvalidOperationException("Cannot mark a cancelled or already paid order as paid.");
+        }
+        Status = "PAID";
+        UpdateAt = DateTime.UtcNow;
+    }
+    public void MarkAsCancelled()
+    {
+        if (Status == "PAID" || Status == "CANCELLED")
+        {
+            throw new InvalidOperationException("Cannot cancel a paid or already cancelled order.");
+        }
+        Status = "CANCELLED";
+        UpdateAt = DateTime.UtcNow;
+    }
 }
