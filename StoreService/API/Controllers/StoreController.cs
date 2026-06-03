@@ -10,7 +10,7 @@ namespace StoreService.API.Controllers;
 public class StoreController : ControllerBase
 {
    [Authorize(Roles = "Seller")]
-   [HttpPost("Store")]
+   [HttpPost]
    public async Task<IActionResult> Create(CreateStoreRequest request, [FromServices] CreateStoreUseCase useCase)
    {
         var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -21,9 +21,8 @@ public class StoreController : ControllerBase
         return Ok();
    }
 
-    // ainda fazer o endpoint funcionar, falta o use case e o handler
    [Authorize(Roles = "Seller")]
-   [HttpPut("Store")]
+   [HttpPut]
    public async Task<IActionResult> Update(UpdateStoreRequest request, [FromServices] UpdateStoreUseCase useCase)
    {
         var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -32,5 +31,47 @@ public class StoreController : ControllerBase
 
         await useCase.Execute(request, userId);
         return Ok();
+   }
+
+   [Authorize(Roles = "Seller")]
+   [HttpGet]
+   public async Task<IActionResult> GetStoreById([FromServices] GetStoreByIdUseCase useCase)
+   {
+        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
+            return Unauthorized();
+
+        var store = await useCase.Execute(userId);
+        if (store == null)
+            return NotFound();
+
+        return Ok(store);
+   }
+
+   [Authorize(Roles = "Customer")]
+   [HttpGet("{storeId}/products")]
+   public async Task<IActionResult> GetProductsByStoreId(Guid storeId, [FromServices] GetProductsByStoreIdUseCase useCase)
+   {
+        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
+            return Unauthorized();
+
+        var products = await useCase.Execute(storeId);
+        return Ok(products);
+   }
+
+   [Authorize(Roles = "Customer")]
+   [HttpGet("{storeId}/StoreForCustomer")]
+   public async Task<IActionResult> GetStoreByIdForCustomer(Guid storeId, [FromServices] GetStoreByStoreIdForCustomerUseCase useCase)
+   {
+        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
+            return Unauthorized();
+
+        var store = await useCase.Execute(storeId);
+        if (store == null)
+            return NotFound();
+
+        return Ok(store);
    }
 }

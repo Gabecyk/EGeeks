@@ -25,8 +25,9 @@ public class Store
         UpdateAt = DateTime.UtcNow;
     }
 
-    public void UpdateProfile(string description, string profileImageUrl)
+    public void UpdateProfile(string name, string description, string profileImageUrl)
     {
+        Name = name;
         Description = description;
         ProfileImageUrl = profileImageUrl;
         UpdateAt = DateTime.UtcNow;
