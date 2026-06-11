@@ -45,6 +45,7 @@ builder.Services.AddScoped<CreateStoreUseCase>();
 builder.Services.AddScoped<CreateProductUseCase>();
 builder.Services.AddScoped<GetAllProductsUseCase>();
 builder.Services.AddScoped<DeleteProductUseCase>();
+builder.Services.AddScoped<UpdateProductUseCase>();
 builder.Services.AddScoped<UpdateStoreUseCase>();
 builder.Services.AddScoped<GetProductsByStoreIdUseCase>();
 builder.Services.AddScoped<GetStoreByIdUseCase>();

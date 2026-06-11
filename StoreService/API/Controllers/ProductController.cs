@@ -33,6 +33,21 @@ public class ProductController : ControllerBase
     }
 
     [Authorize(Roles = "Seller")]
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(
+        Guid id,
+        UpdateProductRequest request,
+        [FromServices] UpdateProductUseCase useCase)
+    {
+        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
+            return Unauthorized();
+
+        await useCase.Execute(id, request, userId);
+        return Ok();
+    }
+
+    [Authorize(Roles = "Seller")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(
         Guid id,

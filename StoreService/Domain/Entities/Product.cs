@@ -32,6 +32,22 @@ public class Product
         UpdateAt = DateTime.UtcNow;
     }
 
+    public void Update(string name, string description, decimal price, int stockQuantity, string imageUrl)
+    {
+        if (price < 0)
+            throw new ArgumentException("Price cannot be negative.", nameof(price));
+
+        if (stockQuantity < 0)
+            throw new ArgumentException("Stock quantity cannot be negative.", nameof(stockQuantity));
+
+        Name = name;
+        Description = description;
+        Price = price;
+        StockQuantity = stockQuantity;
+        ImageUrl = imageUrl;
+        UpdateAt = DateTime.UtcNow;
+    }
+
     public void UpdateStock(int quantity)
     {
         StockQuantity = quantity;
