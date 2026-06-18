@@ -45,4 +45,9 @@ public class StoreRepository : IStoreRepository
     {
         return await _context.Stores.FirstOrDefaultAsync(s => s.Id == storeId);
     }
+
+    public async Task<List<Store>> GetAllAsync()
+    {
+        return await _context.Stores.ToListAsync();
+    }
 }
