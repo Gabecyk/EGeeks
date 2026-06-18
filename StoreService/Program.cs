@@ -43,14 +43,16 @@ builder.Services.AddScoped<IStoreRepository, StoreRepository>();
 
 builder.Services.AddScoped<CreateStoreUseCase>();
 builder.Services.AddScoped<CreateProductUseCase>();
-builder.Services.AddScoped<GetAllProductsUseCase>();
 builder.Services.AddScoped<DeleteProductUseCase>();
 builder.Services.AddScoped<UpdateProductUseCase>();
 builder.Services.AddScoped<UpdateStoreUseCase>();
-builder.Services.AddScoped<GetProductsByStoreIdUseCase>();
 builder.Services.AddScoped<GetStoreByIdUseCase>();
 builder.Services.AddScoped<GetStoreByStoreIdForCustomerUseCase>();
+builder.Services.AddScoped<IAllProductsUseCase, GetAllProductsUseCase>();
 builder.Services.AddScoped<IStockConfirmed, StockConfirmedUseCase>();
+builder.Services.AddScoped<IGetAllStoresUseCase, GetAllStoresUseCase>();
+builder.Services.AddScoped<IGetProductByIdUseCase, GetProductByIdUseCase>();
+builder.Services.AddScoped<IGetProductsByStoreIdUseCase, GetProductsByStoreIdUseCase>();
 builder.Services.AddHostedService<StoreConsumer>();
 
 builder.Services.AddAuthorization();

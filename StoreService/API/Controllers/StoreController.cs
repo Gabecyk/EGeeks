@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using StoreService.Application.DTOs;
+using StoreService.Application.Ports;
+using StoreService.Application.UseCases;
 
 namespace StoreService.API.Controllers;
 
@@ -50,7 +52,7 @@ public class StoreController : ControllerBase
 
    [Authorize(Roles = "Customer")]
    [HttpGet("{storeId}/products")]
-   public async Task<IActionResult> GetProductsByStoreId(Guid storeId, [FromServices] GetProductsByStoreIdUseCase useCase)
+   public async Task<IActionResult> GetProductsByStoreId(Guid storeId, [FromServices] IGetProductsByStoreIdUseCase useCase)
    {
         var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
@@ -73,5 +75,16 @@ public class StoreController : ControllerBase
             return NotFound();
 
         return Ok(store);
+   }
+
+   [HttpGet("stores")]
+   public async Task<IActionResult> GetAllStores([FromServices] IGetAllStoresUseCase useCase)
+   {
+        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
+            return Unauthorized();
+
+        var stores = await useCase.Execute();
+        return Ok(stores);
    }
 }

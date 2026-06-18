@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StoreService.Application.UseCases;
 using StoreService.Application.DTOs;
+using StoreService.Application.Ports;
 using System.Security.Claims;
 
 namespace StoreService.API.Controllers;
@@ -26,10 +27,22 @@ public class ProductController : ControllerBase
 
     [HttpGet]
     public async Task<IActionResult> GetAll(
-        [FromServices] GetAllProductsUseCase usecase)
+        [FromServices] IAllProductsUseCase usecase)
     {
         var products = await usecase.Execute();
         return Ok(products);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get(
+        Guid id,
+        [FromServices] IGetProductByIdUseCase useCase)
+    {
+        var product = await useCase.Execute(id);
+        if (product == null)
+            return NotFound();
+
+        return Ok(product);
     }
 
     [Authorize(Roles = "Seller")]

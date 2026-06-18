@@ -10,4 +10,5 @@ public interface IStoreRepository
     Task<Store?> GetByIdAsync(Guid Id);
     Task<IEnumerable<Product>> GetProductsByStoreIdAsync(Guid storeId);
     Task<Store?> GetByStoreIdAsync(Guid storeId);
+    Task<List<Store>> GetAllAsync();
 }

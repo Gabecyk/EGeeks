@@ -1,8 +1,7 @@
 using StoreService.Application.DTOs;
 using StoreService.Application.Ports;
-using StoreService.Domain.Entities;
 
-public class GetProductsByStoreIdUseCase
+public class GetProductsByStoreIdUseCase : IGetProductsByStoreIdUseCase
 {
     private readonly IStoreRepository _repository;
 
@@ -11,13 +10,20 @@ public class GetProductsByStoreIdUseCase
         _repository = repository;
     }
 
-    public async Task<IEnumerable<Product>> Execute(Guid storeId)
+    public async Task<List<AllProductsDto>> Execute(Guid storeId)
     {
         var existing = await _repository.GetByIdAsync(storeId);
         if (existing == null)
             throw new Exception("Store not found.");
             
         var products = await _repository.GetProductsByStoreIdAsync(storeId);
-        return products;
+        return products.Select(p => new AllProductsDto(
+            p.Id,
+            p.StoreId,
+            p.Name,
+            p.Price,
+            p.StockQuantity,
+            p.ImageUrl
+        )).ToList();
     }
 }
