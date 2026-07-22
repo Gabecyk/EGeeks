@@ -1,0 +1,7 @@
+services:
+  authservice:
+    build: .
+    ports:
+      - "8081:8081"
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=host.docker.internal;Port=5432;Database=egeeks_payment;Username=postgres;Password=root"
