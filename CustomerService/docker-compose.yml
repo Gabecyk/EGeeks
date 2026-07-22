@@ -1,0 +1,7 @@
+services:
+  customerservice:
+    build: .
+    ports:
+      - "8084:8084"
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=host.docker.internal;Port=5432;Database=egeeks_customer;Username=postgres;Password=root"
