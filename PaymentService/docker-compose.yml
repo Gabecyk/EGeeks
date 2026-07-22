@@ -1,5 +1,5 @@
 services:
-  authservice:
+  paymentservice:
     build: .
     ports:
       - "8081:8081"
