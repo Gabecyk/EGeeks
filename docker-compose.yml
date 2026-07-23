@@ -1,0 +1,9 @@
+name: egeeks
+
+include:
+  - Services/AuthService/docker-compose.yml
+  - CustomerService/docker-compose.yml
+  - StoreService/docker-compose.yml
+  - OrderService/docker-compose.yml
+  - PaymentService/docker-compose.yml
+  - NotificationService/docker-compose.yml
