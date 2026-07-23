@@ -16,7 +16,7 @@ WORKDIR /app
 COPY --from=build-env /app/out .
 
 # Expose port 8081
-ENV ASPNETCORE_URLS=http://+:/8081
+ENV ASPNETCORE_URLS=http://+:8081
 EXPOSE 8081
 
 # Start the application
