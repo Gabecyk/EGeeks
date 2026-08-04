@@ -5,6 +5,19 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var allowFrontendPolicy = "_allowFrontendPolicy";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: allowFrontendPolicy,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:3000", "http://localhost:5173") 
+                                .AllowAnyHeader()
+                                .AllowAnyMethod()
+                                .AllowCredentials();
+                      });
+});
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -41,17 +54,6 @@ var app = builder.Build();
 
 app.UseMiddleware<ErrorHandlingMiddleware>();
 
-app.UseAuthentication();
-app.UseAuthorization();
-app.MapControllers();
-
-// Apply migrations
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<CustomerDbContext>();
-    dbContext.Database.Migrate();
-}
-
 app.UseHttpsRedirection();
 
 app.UseSwagger();
@@ -61,9 +63,17 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = string.Empty;
 });
 
+app.UseCors(allowFrontendPolicy);
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<CustomerDbContext>();
+    dbContext.Database.Migrate();
+}
 
 app.Run();
