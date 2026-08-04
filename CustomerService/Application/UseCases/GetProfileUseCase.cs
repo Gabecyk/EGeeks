@@ -19,7 +19,7 @@ public class GetProfileUseCase
         }
         catch (Exception ex)
         {
-            throw new InvalidOperationException("An error occurred while retrieving the customer profile.", ex);
+            throw new InvalidOperationException("An error occurred while retrieving the customer profile: " + ex.Message);
         }
 
         return customer;
