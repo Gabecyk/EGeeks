@@ -6,6 +6,19 @@ using AuthService.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var allowFrontendPolicy = "_allowFrontendPolicy";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: allowFrontendPolicy,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:3000", "http://localhost:5173") 
+                                .AllowAnyHeader()
+                                .AllowAnyMethod()
+                                .AllowCredentials();
+                      });
+});
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -46,9 +59,17 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
+app.UseCors(allowFrontendPolicy);
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
+    dbContext.Database.Migrate();
+}
 
 app.Run();

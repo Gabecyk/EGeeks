@@ -10,6 +10,19 @@ using StoreService.Infrastructure.Messaging;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var allowFrontendPolicy = "_allowFrontendPolicy";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: allowFrontendPolicy,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:3000", "http://localhost:5173") 
+                                .AllowAnyHeader()
+                                .AllowAnyMethod()
+                                .AllowCredentials();
+                      });
+});
+
 builder.Services.AddOpenApi();
 
 // swagger generation (Swashbuckle)
@@ -70,9 +83,17 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors(allowFrontendPolicy);
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<StoreDbContext>();
+    dbContext.Database.Migrate();
+}
 
 app.Run();
