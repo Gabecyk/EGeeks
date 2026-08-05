@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace CustomerService.API.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class CustomerController : ControllerBase
 {
     private readonly CustomerDbContext _context;
