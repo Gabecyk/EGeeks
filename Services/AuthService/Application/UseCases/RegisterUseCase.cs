@@ -11,19 +11,26 @@ public class RegisterUseCase
 
     public async Task Execute(RegisterRequest request)
     {
-        var existing = await _repository.GetByEmailAsync(request.Email);
-        if(existing != null)
-            throw new Exception("Email already in use.");
+        try
+        {
+            var existing = await _repository.GetByEmailAsync(request.Email);
+            if(existing != null)
+                throw new Exception("Email already in use.");
 
-        var hash = _hasher.Hash(request.Password);
+            var hash = _hasher.Hash(request.Password);
 
-        var user = new User(
-            request.Name,
-            request.Email,
-            hash,
-            request.Role
-        );
+            var user = new User(
+                request.Name,
+                request.Email,
+                hash,
+                request.Role
+            );
 
-        await _repository.AddAsync(user);
+            await _repository.AddAsync(user);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error during registration: {ex.Message}");
+        }
     }
 }
