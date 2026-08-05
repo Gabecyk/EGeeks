@@ -22,7 +22,7 @@ public class CustomerClient : ICustomerClient
                 PropertyNameCaseInsensitive = true
             };
             var httpClient = _httpClientFactory.CreateClient("CustomerService");
-            var response = await httpClient.GetAsync($"/customer/email/{customerId}", cancellationToken);
+            var response = await httpClient.GetAsync($"/api/customer/email/{customerId}", cancellationToken);
 
             if (response.IsSuccessStatusCode)
             {

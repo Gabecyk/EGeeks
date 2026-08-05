@@ -7,3 +7,4 @@ include:
   - OrderService/docker-compose.yml
   - PaymentService/docker-compose.yml
   - NotificationService/docker-compose.yml
+  - ApiGateway/docker-compose.yml

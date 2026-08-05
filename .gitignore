@@ -486,3 +486,6 @@ $RECYCLE.BIN/
 # Ignorar arquivos de configuracao com dados sensiveis
 appsettings.json
 appsettings.*.json
+
+# ApiGateway/appsettings.json so tem as rotas do YARP, sem segredos - deve ser versionado
+!ApiGateway/appsettings.json
