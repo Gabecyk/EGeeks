@@ -52,6 +52,9 @@ builder.Services.AddAuthorization();
 builder.Services.AddDbContext<AuthDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddHealthChecks()
+    .AddNpgSql(builder.Configuration.GetConnectionString("DefaultConnection")!, name: "postgres");
+
 var app = builder.Build();
 
 app.UseSwagger();
@@ -65,6 +68,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHealthChecks("/health");
 
 using (var scope = app.Services.CreateScope())
 {
