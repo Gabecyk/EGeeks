@@ -26,7 +26,7 @@ builder.Services.AddCors(options =>
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddControllers();
-builder.Services.AddOpenApi();
+builder.Services.AddSwaggerGen();
 
 // Register DbContext
 builder.Services.AddDbContext<OrderDbContext>(options =>
@@ -73,15 +73,15 @@ if (!string.IsNullOrEmpty(jwtKey))
     });
 }
 
+builder.Services.AddHealthChecks()
+    .AddNpgSql(builder.Configuration.GetConnectionString("DefaultConnection")!, name: "postgres");
+
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseCors(allowFrontendPolicy);
 app.UseHttpsRedirection();
@@ -89,6 +89,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHealthChecks("/health");
 
 using (var scope = app.Services.CreateScope())
 {
@@ -97,4 +98,3 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.Run();
-

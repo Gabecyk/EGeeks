@@ -9,6 +9,6 @@ public class NotificationController : ControllerBase
     [HttpGet("ping")]
     public IActionResult Ping()
     {
-        return Ok("NotificationService funcionando");
+        return Ok("NotificationService working");
     }
 }
